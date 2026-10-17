@@ -21,7 +21,7 @@
 - Помічник «Ask Busy Beaver» у правому нижньому куті. Відповідає готовими відповідями за ключовими словами, без ШІ й без сервера.
 
 ## Замінити перед запуском
-- `[PHONE]`, `[EMAIL]`: у блоці `CONFIG` у `assets/site.js` і в `src/partials/schema.html`. Поле `phoneTel` у форматі `+1XXXXXXXXXX`.
+- `[PHONE]`: у блоці `CONFIG` у `assets/site.js` і в `src/partials/schema.html`. Поле `phoneTel` у форматі `+1XXXXXXXXXX`. Email уже стоїть: busybeaverky@gmail.com.
 - `[DOMAIN]`: змінна `DOMAIN` у `build.py` і `src/partials/schema.html`.
 - `liveForm: true`: увімкнути після публікації на Netlify. Далі в Netlify: Forms → Form notifications → Email, щоб заявки приходили на пошту.
 - Відгуки: посилання «Leave a review» на сторінку Google і підключення Google-відгуків.
