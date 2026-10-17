@@ -241,13 +241,13 @@
     const data = new FormData(form); data.delete("photos"); photos.forEach(f => data.append("photos", f));
     btn.disabled = true; btn.textContent = "Sending…";
     try {
-      const res = await fetch("/", { method: "POST", body: data });
-      if (!res.ok) throw new Error(res.status);
+      // Post to the thank-you page: Netlify records the submission and answers with that page
+      const res = await fetch("/thank-you", { method: "POST", body: data });
+      if (res.status >= 500) throw new Error(res.status);
       form.reset(); photos = []; render(); offerChip.hidden = true;
       status.classList.add("ok"); status.textContent = "Got it! We'll reply within 1 business day.";
       // Thank-you page: Google Ads counts a lead when it loads
-      const home = document.querySelector(".logo")?.getAttribute("href") || "index.html";
-      location.href = home.replace("index.html", "thank-you.html");
+      location.assign("/thank-you");
     } catch {
       status.classList.add("bad"); status.textContent = "That didn't send. Check your connection and try again, or call us.";
     } finally { btn.disabled = false; btn.textContent = "Get My Free Estimate"; }
