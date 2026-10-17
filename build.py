@@ -19,6 +19,9 @@ ROOT = Path(__file__).parent
 SRC = ROOT / "src"
 DIST = ROOT / "dist"
 DOMAIN = "[DOMAIN]"
+PHONE_DISPLAY = "(859) 800-5955"
+PHONE_TEL = "+18598005955"
+EMAIL = "busybeaverky@gmail.com"
 
 SERVICE_BY_SLUG = {s["slug"]: s for s in SERVICES}
 TOWN_BY_SLUG = {t["slug"]: t for t in TOWNS}
@@ -303,6 +306,11 @@ def render(path, title, description, main, root, schema="", noindex=False):
            + main + "\n</main>\n\n" + footer
            + f'\n<script src="{root}assets/site.js"></script>\n</body>\n</html>\n')
     doc = doc.replace("{{root}}", root)
+    # Contact details straight into the HTML (works without JavaScript, readable by Google)
+    doc = doc.replace('data-tel href="#"', f'data-tel href="tel:{PHONE_TEL}"')
+    doc = re.sub(r'(<(\w+)[^>]*\bdata-phone\b[^>]*>)(</\2>)', lambda m: m.group(1) + PHONE_DISPLAY + m.group(3), doc)
+    doc = doc.replace('data-email href="#"', f'data-email href="mailto:{EMAIL}"')
+    doc = re.sub(r'(<(\w+)[^>]*\bdata-email-label\b[^>]*>)(</\2>)', lambda m: m.group(1) + EMAIL + m.group(3), doc)
     out = DIST / path
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(doc)

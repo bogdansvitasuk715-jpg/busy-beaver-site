@@ -1,7 +1,7 @@
   /* ===== Placeholders until confirmed ===== */
   const CONFIG = {
-    phoneDisplay: "[PHONE]",
-    phoneTel: "",            // e.g. "+18595551234"; empty = links stay inactive
+    phoneDisplay: "(859) 800-5955",
+    phoneTel: "+18598005955",
     email: "busybeaverky@gmail.com",
     liveForm: true,          // Netlify Forms: sends requests to the account email
     // Popup for first-time visitors. enabled: false turns it off
