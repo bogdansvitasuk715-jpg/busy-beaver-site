@@ -22,7 +22,7 @@
 
 ## Замінити перед запуском
 - Телефон (859) 800-5955 і email busybeaverky@gmail.com уже стоять (`CONFIG` у `assets/site.js`, `src/partials/schema.html`).
-- `[DOMAIN]`: змінна `DOMAIN` у `build.py` і `src/partials/schema.html`.
+- Домен busybeaverky.com уже стоїть (`DOMAIN` у `build.py`, `src/partials/schema.html`).
 - `liveForm: true`: увімкнути після публікації на Netlify. Далі в Netlify: Forms → Form notifications → Email, щоб заявки приходили на пошту.
 - Відгуки: посилання «Leave a review» на сторінку Google і підключення Google-відгуків.
 

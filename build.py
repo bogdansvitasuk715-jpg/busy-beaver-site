@@ -18,7 +18,7 @@ from src.blog import POSTS
 ROOT = Path(__file__).parent
 SRC = ROOT / "src"
 DIST = ROOT / "dist"
-DOMAIN = "[DOMAIN]"
+DOMAIN = "busybeaverky.com"
 PHONE_DISPLAY = "(859) 800-5955"
 PHONE_TEL = "+18598005955"
 EMAIL = "busybeaverky@gmail.com"
