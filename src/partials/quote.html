@@ -1,0 +1,67 @@
+  <!-- f) Send photos, get a quote -->
+  <section class="alt" id="quote" aria-labelledby="quote-title">
+    <div class="wrap quote-grid">
+      <div class="quote-copy">
+        <p class="eyebrow"><svg aria-hidden="true"><use href="#i-camera"/></svg>Free estimate</p>
+        <h2 id="quote-title">{{quote_title}}</h2>
+        <p>Snap a few pictures of what needs fixing and tell us where you are. That's usually all we need to price the job.</p>
+        <div class="promise"><svg aria-hidden="true"><use href="#i-clock"/></svg><div><strong>Reply within 1 business day</strong><span>With a price or a couple of quick questions.</span></div></div>
+        <div class="promise"><svg aria-hidden="true"><use href="#i-tag"/></svg><div><strong>Free, no obligation</strong><span>You decide after you see the price.</span></div></div>
+        <div class="promise"><svg aria-hidden="true"><use href="#i-phone"/></svg><div><strong>Rather talk?</strong><span>Call or text <a data-tel href="#" data-phone></a></span></div></div>
+      </div>
+
+      <!-- Netlify Forms: emails each request to the account owner once deployed -->
+      <form class="quote-form" id="quote-form" name="estimate" method="POST" data-netlify="true" netlify-honeypot="company" enctype="multipart/form-data" novalidate>
+        <input type="hidden" name="form-name" value="estimate">
+        <input type="hidden" name="offer" id="q-offer" value="">
+        <input type="hidden" name="zip" id="q-zip" value="">
+        <input type="hidden" name="page" value="{{page_name}}">
+        <div class="offer-chip" id="offer-chip" hidden><span>Offer applied: <strong data-offer="summary"></strong></span><button type="button" id="offer-remove">Remove</button></div>
+        <p class="vh"><label>Leave this empty <input name="company" tabindex="-1" autocomplete="off"></label></p>
+        <div class="field">
+          <label for="q-name">Name</label>
+          <input id="q-name" name="name" type="text" autocomplete="name" required aria-describedby="e-name">
+          <p class="error" id="e-name" aria-live="polite"></p>
+        </div>
+        <div class="field">
+          <label for="q-phone">Phone</label>
+          <input id="q-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required aria-describedby="e-phone">
+          <p class="error" id="e-phone" aria-live="polite"></p>
+        </div>
+        <div class="field">
+          <label for="q-email">Email</label>
+          <input id="q-email" name="email" type="email" autocomplete="email" required aria-describedby="e-email">
+          <p class="error" id="e-email" aria-live="polite"></p>
+        </div>
+        <div class="field">
+          <label for="q-town">Town</label>
+          <select id="q-town" name="town" autocomplete="address-level2">
+            <option>Lexington</option><option>Nicholasville</option><option>Georgetown</option><option>Versailles</option>
+            <option>Winchester</option><option>Richmond</option><option>Paris</option><option>Somewhere else nearby</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="q-job">What needs doing?</label>
+          <textarea id="q-job" name="job" required aria-describedby="h-job e-job"></textarea>
+          <p class="hint" id="h-job">For example: patch two holes in the hallway and mount a 55" TV in the bedroom.</p>
+          <p class="error" id="e-job" aria-live="polite"></p>
+        </div>
+        <div class="field full">
+          <span class="label" id="l-photos">Photos <span class="opt">(optional, up to 5)</span></span>
+          <label class="drop" id="drop">
+            <svg aria-hidden="true"><use href="#i-camera"/></svg>
+            <strong>Add photos</strong>
+            <span class="hint">Tap to choose, or drag them here</span>
+            <input id="q-photos" name="photos" type="file" accept="image/*" multiple aria-labelledby="l-photos" aria-describedby="e-photos">
+          </label>
+          <ul class="thumbs" id="thumbs" aria-label="Selected photos"></ul>
+          <p class="error" id="e-photos" aria-live="polite"></p>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-yellow" type="submit">Get My Free Estimate</button>
+          <p class="form-status" id="form-status" role="status"></p>
+          <p class="form-privacy">We use your details only to reply about your job. We never sell them. <a href="{{root}}privacy.html">Privacy Policy</a></p>
+        </div>
+      </form>
+    </div>
+  </section>

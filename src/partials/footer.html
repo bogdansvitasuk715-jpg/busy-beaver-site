@@ -1,0 +1,109 @@
+<!-- j) CTA + footer -->
+<section class="cta-band" aria-labelledby="cta-title">
+  <div class="wrap">
+    <div>
+      <h2 id="cta-title">Got a honey-do list? We'll chew through it.</h2>
+      <p>Send it over with a few photos. You'll hear back within 1 business day.</p>
+    </div>
+    <div class="cta-actions">
+      <a class="btn btn-dark" href="#quote">Get a Free Estimate<svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a class="btn btn-outline-dark" data-tel href="#"><svg aria-hidden="true"><use href="#i-phone"/></svg><span data-phone></span></a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="{{root}}images/brand/logo-dark-bg.webp" width="900" height="448" alt="Busy Beaver Handyman">
+        <p>Friendly, local handyman service for homes in Lexington and nearby Central Kentucky towns.</p>
+        <ul class="footer-contact">
+          <li><svg aria-hidden="true"><use href="#i-phone"/></svg><a data-tel href="#" data-phone></a></li>
+          <li><svg aria-hidden="true"><use href="#i-mail"/></svg><a data-email href="#" data-email-label></a></li>
+          <li><svg aria-hidden="true"><use href="#i-pin"/></svg><span>Lexington, KY and nearby towns</span></li>
+        </ul>
+      </div>
+      {{footer_services}}
+      {{footer_areas}}
+      <nav class="footer-col" aria-label="Company">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="{{root}}about.html">About</a></li>
+          <li><a href="{{root}}property-managers.html">Property Managers</a></li>
+          <li><a href="{{root}}index.html#work">Our Work</a></li>
+          <li><a href="{{root}}index.html#reviews">Reviews</a></li>
+          <li><a href="{{root}}index.html#faq">FAQ</a></li>
+          <li><a href="{{root}}blog.html">Blog</a></li>
+          <li><a href="#quote">Get a Free Estimate</a></li>
+          <li><a href="{{root}}contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year">2026</span> Busy Beaver Handyman. All rights reserved.</span>
+      <span><a href="{{root}}privacy.html">Privacy Policy</a> · Lexington, Kentucky</span>
+    </div>
+  </div>
+</footer>
+
+<!-- New-customer offer: text from CONFIG.offer -->
+<dialog class="offer" id="offer" aria-labelledby="offer-amount">
+  <button class="offer-x" type="button" data-offer-close aria-label="Close offer"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+  <div class="offer-body">
+    <span class="offer-tag" data-offer="tag"></span>
+    <p class="offer-amount" id="offer-amount" data-offer="amount"></p>
+    <p class="offer-line" data-offer="line"></p>
+    <p class="offer-terms" data-offer="terms"></p>
+    <button class="btn btn-yellow" type="button" data-offer-claim>Claim My Offer<svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+    <button class="offer-no" type="button" data-offer-close>No thanks</button>
+  </div>
+  <div class="offer-art"><img src="{{root}}images/brand/mascot.webp" width="620" height="687" loading="lazy" alt=""></div>
+</dialog>
+
+<!-- Ask Busy Beaver: quick answers, no server needed -->
+<button class="helper-btn" type="button" id="helper-btn" aria-expanded="false" aria-controls="helper-panel">
+  <span class="label">Questions? Ask me!</span><img src="{{root}}images/brand/mascot.webp" width="620" height="687" alt=""><span class="vh">Ask Busy Beaver</span>
+</button>
+<div class="helper-panel" id="helper-panel" role="dialog" aria-label="Ask Busy Beaver" hidden>
+  <div class="helper-head">
+    <img src="{{root}}images/brand/beaver-head.webp" width="256" height="230" alt="">
+    <div><strong>Busy Beaver</strong><span>Quick answers about our work</span></div>
+    <button class="helper-close" type="button" id="helper-close" aria-label="Close chat"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="helper-log" id="helper-log" aria-live="polite"></div>
+  <div class="helper-chips" id="helper-chips">
+    <button type="button" data-q="services">What do you fix?</button>
+    <button type="button" data-q="area">Do you come to me?</button>
+    <button type="button" data-q="price">How much?</button>
+    <button type="button" data-q="offer">Any discount?</button>
+    <button type="button" data-q="when">How soon?</button>
+    <button type="button" data-q="insured">Insured?</button>
+    <button type="button" data-q="book">Get a quote</button>
+    <button type="button" data-q="human">Talk to a person</button>
+  </div>
+  <form class="helper-form" id="helper-form">
+    <label class="vh" for="helper-input">Type your question</label>
+    <input id="helper-input" type="text" autocomplete="off" placeholder="Ask a question">
+    <button type="submit" aria-label="Send"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+  </form>
+</div>
+
+<div class="mobile-bar" role="region" aria-label="Quick contact">
+  <a class="btn btn-outline" data-tel href="#"><svg aria-hidden="true"><use href="#i-phone"/></svg>Call</a>
+  <a class="btn btn-yellow" href="#quote">Get a Quote</a>
+</div>
+
+<dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+  <div class="lb-stage"><img alt=""></div>
+  <div class="lightbox-bar">
+    <div class="lb-meta"><p id="lightbox-caption"></p><span id="lb-count"></span></div>
+    <div class="lightbox-nav">
+      <button class="icon-btn" type="button" data-lb="prev" aria-label="Previous photo"><svg aria-hidden="true"><use href="#i-arrow" transform="rotate(180 12 12)"/></svg></button>
+      <button class="icon-btn" type="button" data-lb="next" aria-label="Next photo"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      <button class="icon-btn" type="button" data-lb="close" aria-label="Close"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+  </div>
+</dialog>
+
+<p class="toast" id="toast" role="status" hidden></p>

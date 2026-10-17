@@ -1,0 +1,7 @@
+[build]
+  command = "python3 build.py"
+  publish = "dist"
+
+# Serve /services/tv-mounting for services/tv-mounting.html
+[build.processing.html]
+  pretty_urls = true
