@@ -1,0 +1,5 @@
+@page { size: 11in 8.5in; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 11in; height: 8.5in; }
+body { font-family: "Poppins", sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.sheet { width: 11in; height: 8.5in; position: relative; overflow: hidden; }
