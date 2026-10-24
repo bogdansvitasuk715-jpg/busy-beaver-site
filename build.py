@@ -110,13 +110,18 @@ def steps_block():
   </section>"""
 
 
-def page_hero(root, crumbs, h1, lede, kicker=None, kicker_icon="i-pin"):
+HERO_BG_DEFAULT = "images/blog/fall-home-checklist.webp"
+
+
+def page_hero(root, crumbs, h1, lede, kicker=None, kicker_icon="i-pin", bg=HERO_BG_DEFAULT):
     trail = [f'<a href="{root}index.html">Home</a>']
     for label, href in crumbs[:-1]:
         trail.append(f'<a href="{href}">{esc(label)}</a>')
     trail.append(f'<span aria-current="page">{esc(crumbs[-1][0])}</span>')
     kick = f'<p class="hero-kicker">{icon(kicker_icon)}{esc(kicker)}</p>' if kicker else ""
-    return f"""  <div class="page-hero on-choc">
+    photo = (f'\n    <div class="page-hero-bg" aria-hidden="true"><img src="{root}{bg}" width="1600" height="900" fetchpriority="high" alt=""></div>'
+             if bg and (ROOT / bg).exists() else "")
+    return f"""  <div class="page-hero on-choc{' has-bg' if photo else ''}">{photo}
     <div class="wrap">
       <nav class="breadcrumb" aria-label="Breadcrumb">{' <span aria-hidden="true">/</span> '.join(trail)}</nav>
       {kick}
@@ -482,23 +487,15 @@ def build_services_hub():
            main, root)
 
 
-def service_figure(root, s):
-    img = ROOT / "images" / "services" / f"{s['slug']}.webp"
-    if not img.exists():
-        return ""
-    return f'<figure class="article-figure"><img src="{root}images/services/{s["slug"]}.webp" width="1600" height="900" alt="{esc(s["name"])} by Busy Beaver Handyman"></figure>'
-
-
 def build_service(s):
     root = "../"
     others = [x["slug"] for x in SERVICES if x["slug"] != s["slug"]][:3]
     checklist = "\n".join(f'          <li>{icon("i-check")}{esc(i)}</li>' for i in s["includes"])
     body = "\n".join(f"        <p>{esc(p)}</p>" for p in s["body"])
     main = page_hero(root, [("Services", f"{root}services.html"), (s["name"], "")], s["title"], s["intro"],
-                     kicker=s["name"], kicker_icon=s["icon"]) + f"""
+                     kicker=s["name"], kicker_icon=s["icon"], bg=f"images/services/{s['slug']}.webp") + f"""
 
   <section aria-labelledby="included-title">
-    <div class="wrap">{service_figure(root, s)}</div>
     <div class="wrap content-grid">
       <div class="prose">
         <h2 id="included-title">What's included</h2>
@@ -848,10 +845,10 @@ def build_property_managers():
     ])
     main = page_hero(root, [("Property Managers", "")], "Handyman help for property managers and landlords",
                      "Turnovers, work orders and the punch-list items that keep rentals ready. Send the list with photos and get a clear price within 1 business day.",
-                     kicker="Property Managers", kicker_icon="s-door") + f"""
+                     kicker="Property Managers", kicker_icon="s-door",
+                     bg="images/pm/turnover.webp" if (ROOT / "images/pm/turnover.webp").exists() else HERO_BG_DEFAULT) + f"""
 
   <section aria-labelledby="pm-what">
-    <div class="wrap">{pm_figure(root, "turnover", "Handyman patching drywall in an empty rental during a turnover")}</div>
     <div class="wrap content-grid">
       <div class="prose">
         <h2 id="pm-what">What we handle for rentals</h2>

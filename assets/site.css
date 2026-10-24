@@ -510,6 +510,17 @@
     mask-image: linear-gradient(90deg, transparent 30%, #000 100%); -webkit-mask-image: linear-gradient(90deg, transparent 30%, #000 100%);
   }
   .page-hero .wrap { position: relative; }
+  /* Page hero photo: sits on the right and fades into the chocolate under the text */
+  .page-hero-bg { position: absolute; inset: 0 0 0 38%; }
+  .page-hero-bg img { width: 100%; height: 100%; object-fit: cover; }
+  .page-hero-bg::after { content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--choc) 0%, rgba(59,36,22,.9) 18%, rgba(59,36,22,.45) 45%, rgba(59,36,22,.12) 75%); }
+  .page-hero.has-bg::before { display: none; }
+  .page-hero.has-bg .breadcrumb, .page-hero.has-bg .lede, .page-hero.has-bg h1 { text-shadow: 0 1px 2px rgba(20,12,6,.6), 0 4px 18px rgba(20,12,6,.45); }
+  @media (max-width: 860px) {
+    .page-hero-bg { inset: 0; }
+    .page-hero-bg::after { background: linear-gradient(180deg, rgba(59,36,22,.62) 0%, rgba(59,36,22,.86) 50%, var(--choc) 100%); }
+  }
   .page-hero h1 { font-size: clamp(2.1rem, 5vw, 3.4rem); margin-bottom: 16px; max-width: 18ch; }
   .page-hero .lede { color: var(--on-choc-2); font-size: clamp(1.02rem, 1.5vw, 1.15rem); max-width: 60ch; margin-bottom: 28px; }
   .breadcrumb { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; color: var(--on-choc-2); font-size: .9rem; margin-bottom: 18px; }
