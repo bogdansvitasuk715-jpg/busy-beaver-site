@@ -195,8 +195,9 @@ def stars_row(label=True):
 
 def review_card(r, hidden=False):
     initials = "".join(w[0] for w in r["name"].replace(".", "").split()[:2]).upper()
-    meta = " · ".join(x for x in (r.get("service"), r.get("town")) if x)
-    return f"""<li class="review-card"{' aria-hidden="true"' if hidden else ''}>
+    meta = " · ".join(x for x in (r.get("service"), r.get("town")) if x) or "Thumbtack customer"
+    wide = " review-wide" if len(r["text"]) > 200 else ""
+    return f"""<li class="review-card{wide}"{' aria-hidden="true"' if hidden else ''}>
             <div class="review-top">{stars_row(label=False)}<span class="review-src">via {esc(RATING["source"])}</span></div>
             <blockquote>“{esc(r["text"])}”</blockquote>
             <div class="review-who"><span class="avatar">{esc(initials)}</span><span><strong>{esc(r["name"])}</strong><small>{esc(meta)}</small></span></div>

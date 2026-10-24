@@ -168,6 +168,7 @@
   @keyframes marquee { to { transform: translateX(calc(-50% - 10px)); } }
   .review-card { display: flex; flex-direction: column; width: 320px; flex: none; background: var(--white); border: 1px solid var(--line); border-radius: var(--r-md); padding: 22px 22px 18px; box-shadow: 0 6px 18px -14px rgba(59,36,22,.45); }
   .review-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+  .review-wide { width: 480px; }
   .review-card .stars { display: flex; gap: 3px; color: var(--yellow); }
   .review-card .stars svg { width: 16px; height: 16px; }
   .review-card blockquote { margin: 0 0 18px; flex: 1; color: var(--ink); font-size: .98rem; line-height: 1.55; }
@@ -182,7 +183,7 @@
   .rating-line .stars { display: flex; gap: 3px; color: var(--yellow); }
   .rating-line .stars svg { width: 20px; height: 20px; }
   .rating-line strong { color: var(--choc); }
-  @media (max-width: 600px) { .review-card { width: 280px; } }
+  @media (max-width: 600px) { .review-card { width: 280px; } .review-wide { width: 330px; } .review-card blockquote { font-size: .93rem; } }
   @media (prefers-reduced-motion: reduce) {
     .marquee { overflow-x: auto; }
     .marquee-track { animation: none; }
