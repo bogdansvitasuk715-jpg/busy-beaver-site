@@ -119,6 +119,158 @@
   });
   document.addEventListener("keydown", e => { if (e.key === "Escape" && !helper.hidden) setHelper(false); });
 
+  // Scroll video hero (homepage): the workbench video follows the scroll on desktop.
+  // Phones, tablets held upright, touch screens on their side and reduced motion keep the still hero.
+  const scrubHero = document.querySelector(".scrub-hero");
+  if (scrubHero) {
+    const stage = scrubHero.querySelector(".scrub-stage");
+    const video = scrubHero.querySelector(".scrub-video");
+    const ring = scrubHero.querySelector(".scrub-ring");
+    const bands = [...scrubHero.querySelectorAll(".band")].map((el, i) => {
+      const [a, b] = el.dataset.band.split(",").map(Number);
+      // Stagger thresholds for the word entrances, in reading order
+      const ws = [...el.querySelectorAll(".w")];
+      ws.forEach((w, n) => w.style.setProperty("--th", (n / Math.max(1, ws.length) * 0.45).toFixed(3)));
+      return { el, a, b, first: i === 0, op: -1, k: -1 };
+    });
+    const last = bands.length - 1;
+    const GATES = [
+      "(max-width: 720px)",
+      "(orientation: portrait) and (max-width: 1024px)",
+      "(orientation: portrait) and (pointer: coarse)",
+      "(orientation: landscape) and (pointer: coarse) and (max-height: 560px)",
+      "(prefers-reduced-motion: reduce)"
+    ];
+    const smooth = (p, e0, e1) => { const t = Math.min(1, Math.max(0, (p - e0) / (e1 - e0))); return t * t * (3 - 2 * t); };
+    const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+
+    let target = 0, shown = 0, rafId = null, lastTick = 0, onScreen = true, scrubOn = false;
+    let seekBusy = false, pendingTime = null, started = false;
+
+    const progress = () => {
+      const r = scrubHero.getBoundingClientRect();
+      const range = scrubHero.offsetHeight - stage.offsetHeight;
+      return range > 0 ? clamp((stage.getBoundingClientRect().top - r.top) / range, 0, 1) : 0;
+    };
+
+    function requestSeek(t) {
+      if (!video.duration || !video.classList.contains("ready")) return;
+      if (seekBusy) { pendingTime = t; return; }
+      seekBusy = true;
+      video.currentTime = t;
+    }
+    video.addEventListener("seeked", () => {
+      seekBusy = false;
+      if (pendingTime !== null) { const t = pendingTime; pendingTime = null; requestSeek(t); }
+    });
+    video.addEventListener("error", () => { seekBusy = false; pendingTime = null; failVideo(); });
+
+    // Captions: opacity per band, plus --k (0..1 assembly) for the word entrances. Writes only on change.
+    function updateBands(p) {
+      bands.forEach((band, i) => {
+        const { a, b } = band;
+        const f = Math.min(0.03, (b - a) / 3);
+        const fadeIn = band.first ? 1 : smooth(p, a, a + f);
+        const fadeOut = i === last ? 1 : 1 - smooth(p, b - f, b);
+        const op = Math.round(fadeIn * fadeOut * 1000) / 1000;
+        const k = band.first ? 1 : Math.round(clamp((p - a) / Math.min(0.06, (b - a) * 0.35), 0, 1) * 1000) / 1000;
+        if (op !== band.op) {
+          band.op = op;
+          band.el.style.setProperty("--op", op);
+          if (op === 0) band.el.setAttribute("data-off", ""); else band.el.removeAttribute("data-off");
+        }
+        if (Math.abs(k - band.k) >= 0.008 || (k !== band.k && (k === 0 || k === 1))) {
+          band.k = k;
+          band.el.style.setProperty("--k", k);
+        }
+      });
+    }
+
+    function tick(now) {
+      const dt = Math.min(100, now - (lastTick || now));
+      lastTick = now;
+      shown += (target - shown) * (1 - Math.pow(1 - 0.16, dt / 16.667));
+      if (Math.abs(target - shown) < 0.0005) { shown = target; rafId = null; lastTick = 0; }
+      else rafId = requestAnimationFrame(tick);
+      requestSeek(shown * (video.duration || 0));
+      updateBands(shown);
+    }
+    function onScroll() {
+      target = progress();
+      if (rafId === null && onScreen) rafId = requestAnimationFrame(tick);
+    }
+    new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; if (onScreen && scrubOn) onScroll(); }).observe(scrubHero);
+
+    function failVideo() {
+      ring.classList.add("done");
+      video.classList.remove("ready");
+    }
+    async function loadVideo() {
+      const ctrl = new AbortController();
+      let watchdog = setTimeout(() => ctrl.abort(), 20000);
+      const res = await fetch(scrubHero.dataset.video, { priority: "low", signal: ctrl.signal });
+      if (!res.ok) throw new Error(res.status);
+      const total = Number(res.headers.get("Content-Length")) || Number(scrubHero.dataset.bytes);
+      const reader = res.body.getReader();
+      const chunks = [];
+      let got = 0, lastRing = 0;
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        clearTimeout(watchdog);
+        watchdog = setTimeout(() => ctrl.abort(), 20000);
+        chunks.push(value);
+        got += value.length;
+        const now = performance.now();
+        if (now - lastRing > 100) { lastRing = now; ring.style.setProperty("--ld", Math.round(126 * (1 - Math.min(1, got / total)))); }
+      }
+      clearTimeout(watchdog);
+      ring.style.setProperty("--ld", 0);
+      video.src = URL.createObjectURL(new Blob(chunks, { type: "video/mp4" }));
+      video.load();
+      video.addEventListener("canplay", () => {
+        video.classList.add("ready");
+        ring.classList.add("done");
+        requestSeek(shown * video.duration);
+      }, { once: true });
+    }
+    // The poster paints first; the video starts downloading once it is in (or after 4 seconds at most)
+    function initOnce() {
+      if (started) return;
+      started = true;
+      const begin = () => { if (begin.ran) return; begin.ran = true; loadVideo().catch(failVideo); };
+      const img = new Image();
+      img.onload = img.onerror = begin;
+      img.src = scrubHero.dataset.poster;
+      stage.style.setProperty("--poster", `url("${scrubHero.dataset.poster}")`);
+      setTimeout(begin, 4000);
+    }
+
+    function enableScrub() {
+      if (scrubOn) return;
+      scrubOn = true;
+      scrubHero.classList.add("is-scrub");
+      initOnce();
+      bands.forEach(b => { b.op = -1; b.k = -1; });
+      addEventListener("scroll", onScroll, { passive: true });
+      target = shown = progress();
+      updateBands(shown);
+      onScroll();
+    }
+    function disableScrub() {
+      if (!scrubOn && !scrubHero.classList.contains("is-scrub")) return;
+      scrubOn = false;
+      scrubHero.classList.remove("is-scrub");
+      removeEventListener("scroll", onScroll);
+      if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
+      bands.forEach(b => { b.el.style.removeProperty("--op"); b.el.style.removeProperty("--k"); b.el.removeAttribute("data-off"); });
+    }
+    const MQLS = GATES.map(q => matchMedia(q));
+    const applyHeroMode = () => (MQLS.some(m => m.matches) ? disableScrub() : enableScrub());
+    MQLS.forEach(m => m.addEventListener("change", applyHeroMode));
+    applyHeroMode();
+  }
+
   // Scrolling reviews: pause button (hover and keyboard focus pause too, in CSS)
   const reviewsToggle = document.querySelector(".marquee-toggle");
   if (reviewsToggle) {

@@ -186,6 +186,58 @@ def work_gallery(root):
   </section>"""
 
 
+# ---------- hero: scroll-driven workbench video (desktop) / still ending frame (phones) ----------
+
+HERO_VIDEO = ROOT / "images" / "hero" / "workbench-scrub.mp4"
+
+
+def words(text):
+    """Split a line into word spans for the scroll-driven text entrances."""
+    return " ".join(f'<span class="w">{esc(w)}</span>' for w in text.split())
+
+
+def scrub_hero(root):
+    size = HERO_VIDEO.stat().st_size
+    return f"""<!-- a) Hero: on desktop the workbench video follows the scroll; phones and reduced motion get the still ending frame -->
+  <section class="scrub-hero on-choc" data-video="{root}images/hero/workbench-scrub.mp4" data-bytes="{size}"
+           data-poster="{root}images/hero/workbench-poster.jpg" aria-labelledby="hero-title">
+    <div class="scrub-stage">
+      <div class="scrub-poster" aria-hidden="true"></div>
+      <video class="scrub-video" muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+      <div class="scrub-scrim" aria-hidden="true"></div>
+      <div class="wrap scrub-bands">
+        <div class="band band-1" data-band="0,0.30">
+          <p class="hero-kicker">{icon("i-pin")}Handyman in Lexington, KY</p>
+          <h1 id="hero-title">Busy fixing <span class="hl">Lexington</span>, one home at a time.</h1>
+          <p class="lede">Repairs, installs and small upgrades for homes in Lexington and nearby Central Kentucky towns. Send us a few photos and get a clear price before we start.</p>
+          <div class="hero-actions">
+            <a class="btn btn-yellow" href="#quote">Get a Free Estimate{icon("i-arrow")}</a>
+            <a class="btn btn-outline" data-tel href="#">{icon("i-phone")}Call Now</a>
+          </div>
+          <ul class="trust-line">
+            <li>{icon("i-check")}Reliable</li>
+            <li>{icon("i-check")}Local</li>
+            <li>{icon("i-check")}Quality Work</li>
+          </ul>
+        </div>
+        <div class="band band-2 drift" data-band="0.34,0.62">
+          <p class="band-big">{words("Send a few photos.")}</p>
+          <p class="band-big"><span class="hl">{words("Get a clear price")}</span> {words("before we start.")}</p>
+        </div>
+        <div class="band band-3 rise" data-band="0.66,1">
+          <p class="band-big">{words("Your to-do list, done right.")}</p>
+          <p class="band-sub">Lexington, Nicholasville, Georgetown, Versailles, Winchester, Richmond and Paris.</p>
+          <div class="hero-actions band-cta">
+            <a class="btn btn-yellow" href="#quote">Get a Free Estimate{icon("i-arrow")}</a>
+            <a class="btn btn-outline" data-tel href="#">{icon("i-phone")}Call Now</a>
+          </div>
+        </div>
+      </div>
+      <svg class="scrub-ring" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="126" style="stroke-dashoffset:var(--ld,126)"/></svg>
+    </div>
+  </section>"""
+
+
 # ---------- reviews: Thumbtack rating + scrolling review cards ----------
 
 def stars_row(label=True):
@@ -401,6 +453,8 @@ def build_home():
                           '<a class="btn btn-yellow" href="service-areas.html">See all service areas</a>')
     before = before.replace("{{work_gallery}}", work_gallery(root))
     before = before.replace("{{reviews}}", reviews_section(root))
+    if HERO_VIDEO.exists():
+        before = re.sub(r"  <!-- a\) Hero -->.*?\n  </div>\n(?=\n  <!-- b\))", lambda m: "  " + scrub_hero(root) + "\n", before, count=1, flags=re.S)
     main = before + "\n\n" + quote_block(root) + "\n\n" + after
     render("index.html", "Busy Beaver Handyman | Handyman in Lexington, KY",
            "Busy Beaver Handyman fixes, installs and maintains homes in Lexington, KY and nearby towns: Nicholasville, Georgetown, Versailles, Winchester, Richmond and Paris. Send photos for a free estimate.",
