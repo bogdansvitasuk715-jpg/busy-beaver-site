@@ -32,6 +32,6 @@
 Далі: історія й справжні фото на About, умови для Property Managers, відгуки з Thumbtack.
 
 ## Фото
-- Головний екран: `images/hero/hero-handyman.webp` (логотипи на фото замінені на справжні).
+- Головний екран: відео з верстаком `images/hero/workbench-scrub.mp4`, на комп'ютері рухається разом із прокручуванням. На телефоні й при «зменшеному русі» показується нерухомий кадр `workbench-end.webp`. План і тексти в `docs/hero-video-design.md`. Якщо видалити відео, збірка поверне старий головний екран з `hero-handyman.webp`.
 - Блог: `images/blog/<назва-статті>.webp`, послуги: `images/services/<назва>.webp`. Збірка підставляє їх сама. Запити для генерації в `IMAGE-PROMPTS.md`.
 - About і «Our work»: лише справжні фото Busy Beaver.

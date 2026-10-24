@@ -220,11 +220,11 @@ def scrub_hero(root):
             <li>{icon("i-check")}Quality Work</li>
           </ul>
         </div>
-        <div class="band band-2 drift" data-band="0.34,0.62">
+        <div class="band band-2 drift" data-band="0.32,0.64">
           <p class="band-big">{words("Send a few photos.")}</p>
           <p class="band-big"><span class="hl">{words("Get a clear price")}</span> {words("before we start.")}</p>
         </div>
-        <div class="band band-3 rise" data-band="0.66,1">
+        <div class="band band-3 rise" data-band="0.68,1">
           <p class="band-big">{words("Your to-do list, done right.")}</p>
           <p class="band-sub">Lexington, Nicholasville, Georgetown, Versailles, Winchester, Richmond and Paris.</p>
           <div class="hero-actions band-cta">

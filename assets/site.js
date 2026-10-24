@@ -226,7 +226,7 @@
       }
       clearTimeout(watchdog);
       ring.style.setProperty("--ld", 0);
-      video.src = URL.createObjectURL(new Blob(chunks, { type: "video/mp4" }));
+      video.src = URL.createObjectURL(new Blob(chunks, { type: res.headers.get("Content-Type") || "video/mp4" }));
       video.load();
       video.addEventListener("canplay", () => {
         video.classList.add("ready");
@@ -242,7 +242,7 @@
       const img = new Image();
       img.onload = img.onerror = begin;
       img.src = scrubHero.dataset.poster;
-      stage.style.setProperty("--poster", `url("${scrubHero.dataset.poster}")`);
+      stage.style.setProperty("--poster", `url("${new URL(scrubHero.dataset.poster, location.href).href}")`);
       setTimeout(begin, 4000);
     }
 

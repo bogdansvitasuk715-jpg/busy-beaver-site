@@ -110,7 +110,7 @@
   @media (max-width: 520px) { .hero-actions .btn { flex: 1 1 100%; } }
 
   /* Scroll video hero (homepage). JS adds .is-scrub on desktop; without it the section is a still hero. */
-  .scrub-hero { position: relative; background: var(--choc); }
+  .scrub-hero { position: relative; background: var(--choc); padding: 0; }
   .scrub-stage { position: relative; overflow: hidden; min-height: min(760px, calc(100svh - var(--header-h))); display: flex; align-items: center; }
   .scrub-poster { position: absolute; inset: 0; background: var(--choc) url("../images/hero/workbench-end.webp") 70% 50% / cover no-repeat; }
   .scrub-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; opacity: 0; transition: opacity .6s var(--ease); will-change: transform; }
@@ -118,7 +118,7 @@
     background: linear-gradient(90deg, rgba(43,26,15,.92) 0%, rgba(43,26,15,.78) 30%, rgba(43,26,15,.25) 58%, rgba(43,26,15,0) 75%),
                 linear-gradient(0deg, rgba(43,26,15,.55) 0%, rgba(43,26,15,0) 30%); }
   .scrub-bands { position: relative; width: 100%; padding-block: clamp(56px, 8vw, 104px) clamp(100px, 11vw, 132px); }
-  .band { max-width: 620px; text-shadow: 0 1px 2px rgba(20,12,6,.9), 0 3px 12px rgba(20,12,6,.7), 0 10px 44px rgba(20,12,6,.7); }
+  .band { max-width: 560px; text-shadow: 0 1px 2px rgba(20,12,6,.9), 0 3px 12px rgba(20,12,6,.7), 0 10px 44px rgba(20,12,6,.7); }
   .band .btn { text-shadow: none; }
   .band h1 { margin-bottom: 20px; }
   .band .hl { color: var(--yellow); }
@@ -134,7 +134,7 @@
   .is-scrub .scrub-poster { background-image: var(--poster, none); }
   .is-scrub .scrub-video.ready { opacity: 1; }
   .is-scrub .scrub-bands { position: absolute; inset: 0; padding: 0; display: grid; align-items: center; }
-  .is-scrub .band { grid-area: 1 / 1; padding-inline: max(20px, env(safe-area-inset-left, 0px)); max-width: calc(620px + 40px); opacity: var(--op, 0); visibility: visible; }
+  .is-scrub .band { grid-area: 1 / 1; padding-inline: max(20px, env(safe-area-inset-left, 0px)); max-width: calc(560px + 40px); opacity: var(--op, 0); visibility: visible; }
   .is-scrub .band-1 { --op: 1; }
   .is-scrub .band-2, .is-scrub .band-3 { display: block; }
   .is-scrub .band[data-off] { visibility: hidden; }
@@ -148,7 +148,7 @@
   .is-scrub + .strip-wrap { margin-top: 0; padding-top: 32px; }
   @media (max-width: 860px) {
     .scrub-poster { background-position: 78% 50%; }
-    .scrub-scrim { background: linear-gradient(180deg, rgba(43,26,15,.55) 0%, rgba(43,26,15,.86) 50%, var(--choc) 100%); }
+    .scrub-scrim { background: linear-gradient(180deg, rgba(43,26,15,.35) 0%, rgba(43,26,15,.72) 45%, rgba(43,26,15,.92) 100%); }
   }
   @media (max-width: 520px) { .band .hero-actions .btn { flex: 1 1 100%; } }
 
