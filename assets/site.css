@@ -682,6 +682,8 @@
   .article-figure { margin: 0 0 clamp(32px, 5vw, 48px); border-radius: var(--r-lg); overflow: hidden; }
   .article-figure img, .article-figure .post-art { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; }
   .article-figure .post-art svg { width: 90px; height: 90px; }
+  .prose-figure { margin: 8px 0 22px; border-radius: var(--r-md); overflow: hidden; }
+  .prose-figure img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
   .article-hero .meta { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--yellow); font-weight: 700; margin-bottom: 14px; }
   .article-hero h1 { max-width: 22ch; }
   .prose ul:not(.checklist) { color: var(--ink-2); padding-left: 1.2em; margin: 0 0 18px; font-size: 1.05rem; }

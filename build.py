@@ -828,6 +828,12 @@ def json_str(text):
 
 # ---------- property managers & about ----------
 
+def pm_figure(root, slug, alt, cls="article-figure"):
+    if not (ROOT / "images" / "pm" / f"{slug}.webp").exists():
+        return ""
+    return f'<figure class="{cls}"><img src="{root}images/pm/{slug}.webp" width="1600" height="900" loading="lazy" alt="{esc(alt)}"></figure>'
+
+
 def build_property_managers():
     root = ""
     checklist = "\n".join(f'          <li>{icon("i-check")}{esc(i)}</li>' for i in [
@@ -845,6 +851,7 @@ def build_property_managers():
                      kicker="Property Managers", kicker_icon="s-door") + f"""
 
   <section aria-labelledby="pm-what">
+    <div class="wrap">{pm_figure(root, "turnover", "Handyman patching drywall in an empty rental during a turnover")}</div>
     <div class="wrap content-grid">
       <div class="prose">
         <h2 id="pm-what">What we handle for rentals</h2>
@@ -852,6 +859,7 @@ def build_property_managers():
 {checklist}
         </ul>
         <h2>How it works with us</h2>
+        {pm_figure(root, "keys", "Property manager handing rental keys to a handyman", "prose-figure")}
         <p>Send the work order the way you already write it: the address, what needs doing, photos if you have them, and how we get in (lockbox, tenant contact or office pickup). We'll reply within 1 business day with a price for the whole list.</p>
         <p>Once you approve, we schedule the work and let you know when it's done. If we find something on site that wasn't on the list, we check with you before doing extra work.</p>
         <h2>Where we work</h2>
