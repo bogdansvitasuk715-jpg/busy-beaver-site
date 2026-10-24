@@ -156,6 +156,39 @@
   .rating-facts svg { width: 16px; height: 16px; color: var(--yellow); }
   @media (max-width: 760px) { .reviews-box { grid-template-columns: 1fr; } .rating-score { justify-items: start; } } }
 
+  /* Reviews: two rows of cards drifting sideways */
+  .reviews .section-head { margin-bottom: 20px; }
+  .marquee-toggle { display: inline-flex; margin-bottom: 24px; padding: 8px 18px; border: 1px solid var(--line); border-radius: 999px; background: var(--white); color: var(--choc); font-size: .88rem; font-weight: 600; cursor: pointer; transition: border-color .2s var(--ease); }
+  .marquee-toggle:hover { border-color: var(--brown); }
+  .marquee { overflow: hidden; padding: 6px 0; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+  .marquee + .marquee { margin-top: 18px; }
+  .marquee-track { display: flex; gap: 20px; width: max-content; list-style: none; margin: 0; padding: 0 10px; animation: marquee var(--dur, 50s) linear infinite; }
+  .marquee-rev .marquee-track { animation-direction: reverse; }
+  .marquee:hover .marquee-track, .marquee:focus-within .marquee-track, .reviews.is-paused .marquee-track { animation-play-state: paused; }
+  @keyframes marquee { to { transform: translateX(calc(-50% - 10px)); } }
+  .review-card { display: flex; flex-direction: column; width: 320px; flex: none; background: var(--white); border: 1px solid var(--line); border-radius: var(--r-md); padding: 22px 22px 18px; box-shadow: 0 6px 18px -14px rgba(59,36,22,.45); }
+  .review-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+  .review-card .stars { display: flex; gap: 3px; color: var(--yellow); }
+  .review-card .stars svg { width: 16px; height: 16px; }
+  .review-card blockquote { margin: 0 0 18px; flex: 1; color: var(--ink); font-size: .98rem; line-height: 1.55; }
+  .review-who { display: flex; align-items: center; gap: 12px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .review-who strong { display: block; font-size: .95rem; color: var(--choc); }
+  .review-who small { display: block; font-size: .82rem; color: var(--ink-2); }
+  .avatar { display: grid; place-items: center; width: 38px; height: 38px; flex: none; border-radius: 50%; background: var(--brown); color: var(--white); font-weight: 700; font-size: .8rem; }
+  .review-card:nth-child(3n+2) .avatar { background: var(--choc); }
+  .review-card:nth-child(3n) .avatar { background: var(--yellow); color: var(--choc); }
+  .review-src { font-size: .75rem; color: var(--ink-2); white-space: nowrap; }
+  .rating-line { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 10px; margin-top: 30px; color: var(--ink-2); text-align: center; }
+  .rating-line .stars { display: flex; gap: 3px; color: var(--yellow); }
+  .rating-line .stars svg { width: 20px; height: 20px; }
+  .rating-line strong { color: var(--choc); }
+  @media (max-width: 600px) { .review-card { width: 280px; } }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee { overflow-x: auto; }
+    .marquee-track { animation: none; }
+    .marquee-track [aria-hidden="true"], .marquee-toggle { display: none; }
+  }
+
   /* Services */
   .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; list-style: none; margin: 0; padding: 0; }
   .service-card {

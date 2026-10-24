@@ -119,6 +119,17 @@
   });
   document.addEventListener("keydown", e => { if (e.key === "Escape" && !helper.hidden) setHelper(false); });
 
+  // Scrolling reviews: pause button (hover and keyboard focus pause too, in CSS)
+  const reviewsToggle = document.querySelector(".marquee-toggle");
+  if (reviewsToggle) {
+    reviewsToggle.addEventListener("click", () => {
+      const paused = reviewsToggle.getAttribute("aria-pressed") !== "true";
+      reviewsToggle.setAttribute("aria-pressed", paused);
+      reviewsToggle.textContent = paused ? "Play scrolling reviews" : "Pause scrolling reviews";
+      document.getElementById("reviews").classList.toggle("is-paused", paused);
+    });
+  }
+
   // Before/after viewer with click-to-zoom (only on pages with a gallery)
   const shots = [...document.querySelectorAll(".shot")];
   const lb = document.getElementById("lightbox");

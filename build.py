@@ -14,6 +14,7 @@ import math
 
 from src.content import SERVICES, TOWNS
 from src.blog import POSTS
+from src.reviews import RATING, REVIEWS
 
 ROOT = Path(__file__).parent
 SRC = ROOT / "src"
@@ -185,6 +186,71 @@ def work_gallery(root):
   </section>"""
 
 
+# ---------- reviews: Thumbtack rating + scrolling review cards ----------
+
+def stars_row(label=True):
+    stars = "".join(icon("i-star") for _ in range(5))
+    return f'<div class="stars" role="img" aria-label="5 out of 5 stars">{stars}</div>' if label else f'<div class="stars" aria-hidden="true">{stars}</div>'
+
+
+def review_card(r, hidden=False):
+    initials = "".join(w[0] for w in r["name"].replace(".", "").split()[:2]).upper()
+    meta = " · ".join(x for x in (r.get("service"), r.get("town")) if x)
+    return f"""<li class="review-card"{' aria-hidden="true"' if hidden else ''}>
+            <div class="review-top">{stars_row(label=False)}<span class="review-src">via {esc(RATING["source"])}</span></div>
+            <blockquote>“{esc(r["text"])}”</blockquote>
+            <div class="review-who"><span class="avatar">{esc(initials)}</span><span><strong>{esc(r["name"])}</strong><small>{esc(meta)}</small></span></div>
+          </li>"""
+
+
+def reviews_section(root):
+    r = RATING
+    head = f"""<section id="reviews" class="reviews" aria-labelledby="reviews-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">{icon("i-star")}Reviews</p>
+        <h2 id="reviews-title">What our neighbors say</h2>
+      </div>"""
+    if not REVIEWS:
+        return f"""<!-- c) Reviews: rating from our Thumbtack profile; add review texts in src/reviews.py -->
+  {head}
+      <div class="reviews-box">
+        <div class="rating-score"><strong>{r["score"]}</strong>{stars_row()}</div>
+        <div>
+          <h3>Rated {r["score"]} from {r["count"]} reviews on {r["source"]}</h3>
+          <p>{r["badge"]} on {r["source"]}, hired {r["hires"]} times. Real customers from Lexington and nearby towns.</p>
+          <ul class="rating-facts">
+            <li>{icon("i-star")}{r["score"]} average rating</li>
+            <li>{icon("i-star")}{r["badge"]}</li>
+            <li>{icon("i-star")}Hired {r["hires"]} times</li>
+          </ul>
+        </div>
+        <a class="btn btn-yellow btn-sm" href="#quote">Get a Free Estimate</a>
+      </div>
+    </div>
+  </section>"""
+    half = (len(REVIEWS) + 1) // 2
+    rows = [REVIEWS[:half], REVIEWS[half:]] if len(REVIEWS) >= 6 else [REVIEWS]
+    tracks = []
+    for i, row in enumerate(rows):
+        cards = [review_card(x) for x in row] + [review_card(x, hidden=True) for x in row]
+        secs = max(30, len(row) * 9)
+        tracks.append(f"""      <div class="marquee{' marquee-rev' if i else ''}">
+        <ul class="marquee-track" style="--dur:{secs}s">
+          {chr(10).join("          " + c if j else c for j, c in enumerate(cards)).strip()}
+        </ul>
+      </div>""")
+    return f"""<!-- c) Reviews: word for word from our Thumbtack profile (src/reviews.py) -->
+  {head}
+      <button class="marquee-toggle" type="button" aria-pressed="false">Pause scrolling reviews</button>
+    </div>
+{chr(10).join(tracks)}
+    <div class="wrap">
+      <div class="rating-line">{stars_row()}<p><strong>{r["score"]} out of 5</strong> · {r["count"]} reviews on {r["source"]} · {r["badge"]}</p></div>
+    </div>
+  </section>"""
+
+
 # ---------- service area: ZIP check + map ----------
 
 # ZIP codes we serve, by town (used by the ZIP checker)
@@ -333,6 +399,7 @@ def build_home():
     after = after.replace('<a class="btn btn-yellow" href="#quote">Check my address</a>',
                           '<a class="btn btn-yellow" href="service-areas.html">See all service areas</a>')
     before = before.replace("{{work_gallery}}", work_gallery(root))
+    before = before.replace("{{reviews}}", reviews_section(root))
     main = before + "\n\n" + quote_block(root) + "\n\n" + after
     render("index.html", "Busy Beaver Handyman | Handyman in Lexington, KY",
            "Busy Beaver Handyman fixes, installs and maintains homes in Lexington, KY and nearby towns: Nicholasville, Georgetown, Versailles, Winchester, Richmond and Paris. Send photos for a free estimate.",
