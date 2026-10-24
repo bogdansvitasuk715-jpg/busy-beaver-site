@@ -40,7 +40,7 @@
     </div>
   </div>
 
-  <!-- c) Reviews: Google reviews get connected later -->
+  <!-- c) Reviews: rating from our Thumbtack profile; review cards go in .reviews-grid -->
   <section id="reviews" aria-labelledby="reviews-title">
     <div class="wrap">
       <div class="section-head">
@@ -48,13 +48,20 @@
         <h2 id="reviews-title">What our neighbors say</h2>
       </div>
       <div class="reviews-box">
-        <div class="stars" aria-hidden="true"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
-        <div>
-          <h3>Google reviews are on their way</h3>
-          <p>Our Google reviews will show up right here once they're connected. Had us over recently? We'd love to hear how it went.</p>
+        <div class="rating-score">
+          <strong>5.0</strong>
+          <div class="stars" role="img" aria-label="5 out of 5 stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
         </div>
-        <!-- TODO: link to the Google review page -->
-        <a class="btn btn-outline-dark btn-sm" href="#" data-soon>Leave a review</a>
+        <div>
+          <h3>Rated 5.0 from 42 reviews on Thumbtack</h3>
+          <p>Platinum Top Pro on Thumbtack, hired 31 times. Real customers from Lexington and nearby towns.</p>
+          <ul class="rating-facts">
+            <li><svg aria-hidden="true"><use href="#i-star"/></svg>5.0 average rating</li>
+            <li><svg aria-hidden="true"><use href="#i-star"/></svg>Platinum Top Pro</li>
+            <li><svg aria-hidden="true"><use href="#i-star"/></svg>Hired 31 times</li>
+          </ul>
+        </div>
+        <a class="btn btn-yellow btn-sm" href="#quote">Get a Free Estimate</a>
       </div>
     </div>
   </section>
